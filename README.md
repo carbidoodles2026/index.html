@@ -23,7 +23,7 @@
       font-family: "Comic Sans MS", "Chalkboard SE", cursive, sans-serif;
       background: #080b18;
       color: var(--cyan);
-      padding: 16px;
+      padding: 12px;
     }
 
     .neon-txt {
@@ -38,16 +38,16 @@
       text-shadow: 1.5px 1.5px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0 0 7px currentColor;
     }
 
-    .wrap { max-width: 1200px; margin: 0 auto; }
-    .head { text-align: center; margin-bottom: 16px; }
-    .head h1 { margin: 0; font-size: clamp(2rem, 5vw, 3.2rem); color: var(--yellow); }
-    .head p { margin: 6px 0 0; color: var(--pink); }
+    .wrap { max-width: 1240px; margin: 0 auto; }
+    .head { text-align: center; margin-bottom: 14px; }
+    .head h1 { margin: 0; font-size: clamp(1.9rem, 5vw, 3.2rem); color: var(--yellow); }
+    .head p { margin: 6px 0 0; color: var(--pink); font-size: clamp(0.85rem, 2.5vw, 1rem); }
 
     .card {
       background: var(--panel);
       border: 2px solid var(--cyan);
       border-radius: 20px;
-      padding: 16px;
+      padding: 14px;
       margin-bottom: 14px;
     }
 
@@ -88,7 +88,7 @@
 
     .setup-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
       gap: 12px;
     }
 
@@ -183,10 +183,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: clamp(0.45rem, 1vw, 0.72rem);
+      font-size: clamp(0.45rem, 1.1vw, 0.75rem);
       font-weight: bold;
       cursor: pointer;
       overflow: hidden;
+      padding: 1px;
     }
 
     .c-0 { background: #131a38; color: var(--cyan); }
@@ -199,7 +200,7 @@
     .tile {
       width: 100%;
       height: 100%;
-      border-radius: 7px;
+      border-radius: 8px;
       border: 2px solid #000;
       display: flex;
       align-items: center;
@@ -208,6 +209,7 @@
       font-weight: bold;
       cursor: pointer;
       animation: popIn 0.2s ease-out;
+      overflow: hidden;
     }
 
     @keyframes popIn {
@@ -215,13 +217,26 @@
       to { transform: scale(1); }
     }
 
-    .tile.picked { outline: 3px solid var(--yellow); transform: translateY(-3px); }
-    .t-ch { font-size: clamp(0.8rem, 1.7vw, 1.2rem); }
-    .t-pt { position: absolute; right: 2px; bottom: 1px; font-size: 0.55rem; color: #fff; }
+    .tile.picked { outline: 3px solid var(--yellow); transform: translateY(-4px); }
+
+    .t-ch {
+      font-size: clamp(0.95rem, 2.2vw, 1.45rem);
+      line-height: 1;
+      transform: translateY(-1px);
+    }
+
+    .t-pt {
+      position: absolute;
+      right: 3px;
+      bottom: 2px;
+      font-size: clamp(0.52rem, 1vw, 0.72rem);
+      line-height: 1;
+      color: #fff;
+    }
 
     .rack-wrap {
       margin-top: 12px;
-      padding: 12px;
+      padding: 14px 10px;
       border-radius: 18px;
       background: #101633;
       border: 2px solid var(--pink);
@@ -232,11 +247,34 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 8px;
-      min-height: 56px;
-      margin-bottom: 10px;
+      min-height: 68px;
+      margin-bottom: 12px;
     }
 
-    .slot { width: 50px; height: 54px; }
+    .slot {
+      width: 60px;
+      height: 66px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .board { gap: 1.5px; padding: 3px; }
+      .slot {
+        width: 54px;
+        height: 60px;
+      }
+      .rack {
+        gap: 6px;
+      }
+      .t-ch {
+        font-size: 1.25rem;
+      }
+      .t-pt {
+        font-size: 0.62rem;
+        right: 2px;
+        bottom: 1px;
+      }
+    }
 
     .p-item {
       display: flex;
@@ -378,28 +416,19 @@
               </linearGradient>
             </defs>
 
-            <!-- Pillars -->
             <rect x="13" y="12" width="4" height="68" rx="2" fill="url(#metalCap3d)" stroke="#000" stroke-width="1.5" />
             <rect x="51" y="12" width="4" height="68" rx="2" fill="url(#metalCap3d)" stroke="#000" stroke-width="1.5" />
 
-            <!-- Top & Bottom 3D Caps -->
             <rect x="7" y="5" width="54" height="8" rx="4" fill="url(#metalCap3d)" stroke="#000" stroke-width="2" />
             <rect x="7" y="79" width="54" height="8" rx="4" fill="url(#metalCap3d)" stroke="#000" stroke-width="2" />
 
-            <!-- Glass Hourglass Body -->
             <path d="M16 13 C16 30, 31 38, 34 46 C31 54, 16 62, 16 79 L52 79 C52 62, 37 54, 34 46 C37 38, 52 30, 52 13 Z"
                   fill="url(#glassBulb3d)" stroke="#00f5ff" stroke-width="2.2" />
 
-            <!-- Top Draining Sand -->
             <polygon id="sandTop3d" points="21,17 47,17 34,42" fill="url(#topSand3d)" />
-
-            <!-- Falling Sand Stream -->
             <line id="sandStream3d" x1="34" y1="44" x2="34" y2="76" class="sand-stream-3d" />
-
-            <!-- Bottom Sand Mound -->
             <polygon id="sandBot3d" points="34,62 48,76 20,76" fill="url(#botSand3d)" />
 
-            <!-- Glossy Specular Highlight -->
             <path d="M20 17 Q18 28 24 37" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.2" stroke-linecap="round" />
           </svg>
 
