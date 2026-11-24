@@ -129,7 +129,7 @@
 
     #playArea {
       display: none;
-      grid-template-columns: 260px 1fr 240px;
+      grid-template-columns: 270px 1fr 240px;
       gap: 14px;
       align-items: start;
     }
@@ -256,6 +256,31 @@
     }
     .p-av img { width: 100%; height: 100%; object-fit: cover; }
 
+    /* 3D Sand Timer Box */
+    .sand-3d-box {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      background: radial-gradient(circle at 50% 0%, #1c2659, #090d20);
+      border: 2px solid var(--yellow);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 10px;
+      box-shadow: 0 6px 0 #000, 0 0 16px rgba(255, 230, 0, 0.25);
+    }
+
+    .sand-stream-3d {
+      stroke: #ffe600;
+      stroke-width: 3.2;
+      stroke-dasharray: 4 3;
+      animation: sandFall3d 0.3s linear infinite;
+    }
+
+    @keyframes sandFall3d {
+      to { stroke-dashoffset: -7; }
+    }
+
     .status {
       margin-bottom: 10px;
       padding: 8px 12px;
@@ -278,7 +303,7 @@
   <div class="wrap">
     <div class="head">
       <h1 class="neon-txt">Scrabble Neon Arcade</h1>
-      <p class="neon-txt-sm">Neon Tiles + Black Outline • Moving Border • Sand Timer • 2–4 Players</p>
+      <p class="neon-txt-sm">Neon Tiles + Black Outline • Moving Border • 3D Sand Timer • 2–4 Players</p>
     </div>
 
     <div id="setupScreen" class="card">
@@ -294,7 +319,7 @@
           </select>
         </label>
         <label class="neon-txt-sm" style="color:var(--yellow);">
-          Sand Timer:
+          3D Sand Timer:
           <select id="tSec">
             <option value="60">60s</option>
             <option value="90" selected>90s</option>
@@ -326,10 +351,64 @@
       <div class="card">
         <h3 class="neon-txt-sm" style="margin:0 0 8px; color:var(--yellow);">Players</h3>
         <div id="hud"></div>
-        <div style="text-align:center; margin-top:10px; padding:10px; border-radius:12px; background:#0a0e22; border:2px solid var(--yellow);">
-          <div class="neon-txt-sm" style="color:var(--cyan);">Sand Timer</div>
-          <div id="clockTxt" class="neon-txt" style="font-size:1.4rem; color:var(--pink);">90s</div>
+
+        <!-- 3D Sand Timer Graphic -->
+        <div class="sand-3d-box">
+          <svg width="68" height="92" viewBox="0 0 68 92" aria-label="3D Sand Timer">
+            <defs>
+              <linearGradient id="metalCap3d" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#b87300" />
+                <stop offset="35%" stop-color="#fff078" />
+                <stop offset="70%" stop-color="#e09b00" />
+                <stop offset="100%" stop-color="#6e4200" />
+              </linearGradient>
+              <linearGradient id="glassBulb3d" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="rgba(255,255,255,0.45)" />
+                <stop offset="30%" stop-color="rgba(0,245,255,0.14)" />
+                <stop offset="75%" stop-color="rgba(0,245,255,0.06)" />
+                <stop offset="100%" stop-color="rgba(255,255,255,0.35)" />
+              </linearGradient>
+              <linearGradient id="topSand3d" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff6ec7" />
+                <stop offset="100%" stop-color="#d6006d" />
+              </linearGradient>
+              <linearGradient id="botSand3d" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#b8ff5c" />
+                <stop offset="100%" stop-color="#00b86b" />
+              </linearGradient>
+            </defs>
+
+            <!-- Pillars -->
+            <rect x="13" y="12" width="4" height="68" rx="2" fill="url(#metalCap3d)" stroke="#000" stroke-width="1.5" />
+            <rect x="51" y="12" width="4" height="68" rx="2" fill="url(#metalCap3d)" stroke="#000" stroke-width="1.5" />
+
+            <!-- Top & Bottom 3D Caps -->
+            <rect x="7" y="5" width="54" height="8" rx="4" fill="url(#metalCap3d)" stroke="#000" stroke-width="2" />
+            <rect x="7" y="79" width="54" height="8" rx="4" fill="url(#metalCap3d)" stroke="#000" stroke-width="2" />
+
+            <!-- Glass Hourglass Body -->
+            <path d="M16 13 C16 30, 31 38, 34 46 C31 54, 16 62, 16 79 L52 79 C52 62, 37 54, 34 46 C37 38, 52 30, 52 13 Z"
+                  fill="url(#glassBulb3d)" stroke="#00f5ff" stroke-width="2.2" />
+
+            <!-- Top Draining Sand -->
+            <polygon id="sandTop3d" points="21,17 47,17 34,42" fill="url(#topSand3d)" />
+
+            <!-- Falling Sand Stream -->
+            <line id="sandStream3d" x1="34" y1="44" x2="34" y2="76" class="sand-stream-3d" />
+
+            <!-- Bottom Sand Mound -->
+            <polygon id="sandBot3d" points="34,62 48,76 20,76" fill="url(#botSand3d)" />
+
+            <!-- Glossy Specular Highlight -->
+            <path d="M20 17 Q18 28 24 37" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.2" stroke-linecap="round" />
+          </svg>
+
+          <div style="text-align:center;">
+            <div id="clockTxt" class="neon-txt" style="font-size:1.5rem; color:var(--pink);">90s</div>
+            <div class="neon-txt-sm" style="font-size:0.78rem; color:var(--lime);">Turn Left</div>
+          </div>
         </div>
+
         <div id="camBox">
           <button type="button" class="btn btn-dark neon-txt-sm" style="width:100%; margin-bottom:8px;" onclick="toggleCam()">Toggle Camera</button>
           <video id="camVid" autoplay playsinline muted style="display:none;"></video>
@@ -630,14 +709,28 @@
       startTimer();
     }
 
+    function updateSand3dVisual() {
+      document.getElementById("clockTxt").textContent = S.left + "s";
+      const ratio = Math.max(0, Math.min(1, S.left / Math.max(1, S.sec)));
+      const h = 24 * ratio;
+      const topY = 42 - h;
+      const w = Math.max(1, 13 * ratio);
+      document.getElementById("sandTop3d").setAttribute("points", `${34 - w},${topY} ${34 + w},${topY} 34,42`);
+      document.getElementById("sandStream3d").style.opacity = S.left > 0 ? "1" : "0";
+    }
+
     function startTimer() {
       clearInterval(S.timer);
-      if (S.sec <= 0) { document.getElementById("clockTxt").textContent = "∞"; return; }
+      if (S.sec <= 0) {
+        document.getElementById("clockTxt").textContent = "∞";
+        document.getElementById("sandStream3d").style.opacity = "0";
+        return;
+      }
       S.left = S.sec;
-      document.getElementById("clockTxt").textContent = S.left + "s";
+      updateSand3dVisual();
       S.timer = setInterval(() => {
         S.left--;
-        document.getElementById("clockTxt").textContent = S.left + "s";
+        updateSand3dVisual();
         if (S.left <= 0) {
           clearInterval(S.timer);
           nextTurn();
